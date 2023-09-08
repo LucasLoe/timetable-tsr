@@ -1,4 +1,4 @@
-export default function createValidDateFromString(dateString: string) {
+export default function createJSDateFromYYYYMMDD(dateString: string): Date {
 	const parts = dateString.split("-");
 
 	// Ensure there are three parts in the date string (YYYY, MM, DD)
@@ -14,5 +14,11 @@ export default function createValidDateFromString(dateString: string) {
 		throw new Error("Invalid date format. Year, month, and day must be numeric.");
 	}
 
-	return new Date(year, month, day);
+	// Create the initial date object
+	const dateObject = new Date(year, month, day);
+
+	// Add exactly 1 hour
+	dateObject.setHours(dateObject.getHours() + 2);
+
+	return dateObject;
 }

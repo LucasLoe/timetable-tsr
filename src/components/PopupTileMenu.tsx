@@ -1,6 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTag, faEllipsis } from "@fortawesome/free-solid-svg-icons";
-import createValidDateFromString from "../functions/createValidDateFromString";
 import { v4 as uuidv4 } from "uuid";
 import { useRef } from "react";
 import { EventType, SetValue, CalendarLocalStorageType } from "../types";
@@ -10,7 +9,7 @@ type PopupTileMenuPropsType = {
 	setPopupOpen: SetValue<boolean>;
 	calenderEventsHook: [CalendarLocalStorageType, SetValue<CalendarLocalStorageType>];
 	popupAlign: string;
-	date: string;
+	date: Date;
 };
 export default function PopupTileMenu(props: PopupTileMenuPropsType) {
 	const handleNewEventModal = props.handleNewEventModal;
@@ -19,6 +18,7 @@ export default function PopupTileMenu(props: PopupTileMenuPropsType) {
 	const [events, setEvents] = props.calenderEventsHook;
 	const setIsPopupOpen = props.setPopupOpen;
 	const inputRef = useRef<HTMLInputElement>(null);
+	console.log()
 
 	let leftValClassName = "left-[calc(50%-125px)]";
 	let leftTriangleClassName = "mx-auto";
@@ -33,8 +33,9 @@ export default function PopupTileMenu(props: PopupTileMenuPropsType) {
 
 	const handleEnterKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
 		if (e.key === "Enter") {
-			const eventDate = createValidDateFromString(cellDate);
-
+			console.log(cellDate)
+			const eventDate = cellDate;
+			console.log(eventDate)
 			setIsPopupOpen(false);
 			const newEvent = {
 				title: inputRef.current!.value,
@@ -55,7 +56,7 @@ export default function PopupTileMenu(props: PopupTileMenuPropsType) {
 
 	function handleTransitionToNewEventModal() {
 		setIsPopupOpen(false);
-		const eventDate = createValidDateFromString(cellDate);
+		const eventDate = cellDate;
 		handleNewEventModal({
 			title: inputRef.current!.value,
 			beginDate: new Date(eventDate),

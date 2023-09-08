@@ -1,4 +1,4 @@
-import CalendarCell from "./CalendarCellLayout";
+import CalendarCellLayout from "./CalendarCellLayout";
 import PopupTileMenu from "./PopupTileMenu";
 import { useState, useEffect, useRef } from "react";
 import useClientRect from "../functions/useClientRect";
@@ -9,14 +9,13 @@ import { CellType, CalendarLocalStorageType, SetValue, EventArrayType, EventType
 
 type CellControllerProps = {
 	cellType: CellType;
-	date: string;
+	date: Date;
 	calenderEventsHook: [CalendarLocalStorageType, SetValue<CalendarLocalStorageType>];
 	activeEvents: EventArrayType;
 	handleNewEventModal: (e: EventType | undefined) => void;
 };
 
 export default function CellController(props: CellControllerProps) {
-	console.log();
 	const [isPopupOpen, setIsPopupOpen] = useState(false);
 	const cellRef = useRef<HTMLDivElement>(null);
 	const [events, setEvents] = props.calenderEventsHook;
@@ -80,7 +79,7 @@ export default function CellController(props: CellControllerProps) {
 			)}
 
 			<div className='h-full max-h-full'>
-				<CalendarCell ref={rectRef} cellType={props.cellType} date={props.date}>
+				<CalendarCellLayout ref={rectRef} cellType={props.cellType} date={props.date}>
 					{activeEvents &&
 						activeEvents.map((e, index) => {
 							return (
@@ -100,7 +99,7 @@ export default function CellController(props: CellControllerProps) {
 							handleNewEventModal={props.handleNewEventModal}
 						/>
 					)}
-				</CalendarCell>
+				</CalendarCellLayout>
 			</div>
 		</div>
 	);

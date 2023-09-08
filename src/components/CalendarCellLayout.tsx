@@ -3,7 +3,7 @@ import { CellType } from "../types";
 
 type CalendarCellProps = {
 	cellType: CellType;
-	date: string;
+	date: Date;
 	children: ReactNode;
 };
 
@@ -11,7 +11,7 @@ const CalendarCellLayout = forwardRef(function CalendarCell(
 	props: PropsWithChildren<CalendarCellProps>,
 	ref: React.ForwardedRef<HTMLDivElement>
 ) {
-	const day = new Date(props.date).getDate();
+	const day = props.date.getDate();
 
 	return props.cellType == "currentMonth" ? (
 		<div

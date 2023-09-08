@@ -42,13 +42,11 @@ export default function NewEventModal(props: NewEventModalPropType): JSX.Element
 			const dateObj = new Date(eventData.beginDate);
 			const formatted = dateObj.toISOString().split("T")[0];
 			setFormattedBeginDate(formatted);
-			// console.log(`begin date: ${formatted}`);
 		}
 		if (eventData.endDate) {
 			const dateObj = new Date(eventData.endDate);
 			const formatted = dateObj.toISOString().split("T")[0];
 			setFormattedEndDate(formatted);
-			// console.log(`begin date: ${formatted}`);
 		}
 	}, [eventData]);
 
@@ -87,7 +85,6 @@ export default function NewEventModal(props: NewEventModalPropType): JSX.Element
 			events.eventData.length &&
 			events.eventData.filter((e) => e._uuid === eventData._uuid).length == 0
 		) {
-			console.log("triggered");
 			setEvents({ ...events, eventData: [...events.eventData, eventData] });
 		} else {
 			let eventsCopy = [...events.eventData];

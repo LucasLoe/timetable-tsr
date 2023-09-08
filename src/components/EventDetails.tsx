@@ -12,6 +12,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import removeEventByIdFromArray from "../functions/removeEventByIdFromArray";
 import { SetValue, EventType, CalendarLocalStorageType } from "../types";
+import dateToDotFormat from "../functions/dateToDotFormat";
 
 type EventDetailsPropsType = {
 	calenderEventsHook: [CalendarLocalStorageType, SetValue<CalendarLocalStorageType>];
@@ -28,14 +29,8 @@ export default function EventDetails(props: EventDetailsPropsType) {
 	const modalRef = useRef<HTMLDivElement>(null);
 	const submenuRef = useRef<HTMLDivElement>(null);
 
-	function toDotFormat(date: string) {
-		const reorderedDate = date.slice(8, 10) + date.slice(4, 8) + date.slice(0, 4);
-		return reorderedDate.replaceAll("-", ".");
-	}
-
 	function handleRemoveEvent() {
 		if (activeEventDetail != undefined) {
-			console.log("triggered remove event");
 			setEvents(removeEventByIdFromArray(events, activeEventDetail._uuid));
 			setSubmenuIsOpen(false);
 			setModalIsOpen(false);
@@ -137,7 +132,7 @@ export default function EventDetails(props: EventDetailsPropsType) {
 					<div className='mt-8 flex w-full flex-row justify-center align-middle'>
 						<div className='text-center'>
 							<p className='text-lg text-slate-500'>
-								{toDotFormat(new Date(activeEventDetail.beginDate).toISOString())}
+								{dateToDotFormat(new Date(activeEventDetail.beginDate).toISOString())}
 							</p>
 							{!activeEventDetail.fullDay && (
 								<p className='text-4xl'>{activeEventDetail.beginTime}</p>
@@ -149,7 +144,7 @@ export default function EventDetails(props: EventDetailsPropsType) {
 						/>
 						<div className='text-center'>
 							<p className='text-lg text-slate-500'>
-								{toDotFormat(new Date(activeEventDetail.endDate).toISOString())}
+								{dateToDotFormat(new Date(activeEventDetail.endDate).toISOString())}
 							</p>
 							{!activeEventDetail.fullDay && (
 								<p className='text-4xl'>{activeEventDetail.endTime}</p>
