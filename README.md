@@ -4,7 +4,8 @@ Private project on rebuilding the calendar app that I use daily (-> TimeTree ;  
 
 While it is still a (working) mess, I am on my way to clean up the code.
 
-Try it @ https://timetable-react-app.vercel.app/
+Try it @ https://timetable-tsr.vercel.app
+
 
 Done:
 > Local Storage for events

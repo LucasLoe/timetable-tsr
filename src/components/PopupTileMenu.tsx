@@ -78,11 +78,11 @@ export default function PopupTileMenu(props: PopupTileMenuPropsType) {
 		>
 			<div
 				id='popup-triangle'
-				className={`h-0 w-0 border-b-[12px] border-l-[12px] border-r-[12px] border-b-slate-200 border-l-transparent border-r-transparent ${leftTriangleClassName}`}
+				className={`h-0 w-0 border-b-[12px] border-l-[12px] border-r-[12px] border-b-blue-100 border-l-transparent border-r-transparent ${leftTriangleClassName}`}
 			></div>
 			<div
 				id='popup-menu'
-				className='mx-auto my-0 flex h-12 w-full justify-between rounded-lg bg-slate-200 px-4 py-2 align-middle'
+				className='mx-auto my-0 flex h-12 w-full justify-between rounded-lg bg-blue-100 px-4 py-2 align-middle'
 			>
 				<FontAwesomeIcon icon={faTag} className='fa my-auto text-blue-500' />
 				<input
