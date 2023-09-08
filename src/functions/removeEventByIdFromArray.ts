@@ -1,9 +1,9 @@
-import { CalendarLocalStorage } from "../types";
+import { CalendarLocalStorageType } from "../types";
 
 export default function removeEventByIdFromArray(
-	eventsInLocalStorage: CalendarLocalStorage,
+	eventsInLocalStorage: CalendarLocalStorageType,
 	id: string
-): CalendarLocalStorage {
+): CalendarLocalStorageType {
 	const objIndex = eventsInLocalStorage.eventData.findIndex((e) => e._uuid === id);
 	let eventDataCopy = [...eventsInLocalStorage.eventData];
 
