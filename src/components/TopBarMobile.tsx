@@ -2,13 +2,11 @@ import {
 	faSquareCaretLeft,
 	faSquareCaretRight,
 	faPlus,
-	faHamburger,
 	faHome,
 } from "@fortawesome/free-solid-svg-icons";
 import SearchBar from "./SearchBar";
 import React, { useState } from "react";
 import { EventType, SetValue, CalendarLocalStorageType } from "../types";
-import MenuButton from "./MenuButton";
 import FontAwesomeButton from "./FontAwesomeButton";
 
 const monthStrings = [
