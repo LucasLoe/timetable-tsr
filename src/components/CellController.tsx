@@ -27,6 +27,7 @@ export default function CellController(props: CellControllerProps) {
 	const [popupAlign, setPopupAlign] = useState("middle");
 
 	const activeEvents = props.activeEvents;
+	const [touchCount, setTouchCount] = useState(0);
 
 	useEffect(() => {
 		const extraSpace = 50;
@@ -57,7 +58,17 @@ export default function CellController(props: CellControllerProps) {
 		};
 	});
 
-	const handleClick = (e: React.MouseEvent) => {
+	const handleDoubleTouch = () => {
+		setTouchCount((prevCount) => prevCount + 1);
+		const touchTimer = setTimeout(() => setTouchCount(0), 300);
+		if (touchCount === 1) {
+			setIsPopupOpen(true);
+			setTouchCount(0);
+			clearTimeout(touchTimer);
+		}
+	};
+
+	const handleDoubleClick = (e: React.MouseEvent) => {
 		// if double click
 		if (e.detail === 2) {
 			setIsPopupOpen(true);
@@ -65,7 +76,12 @@ export default function CellController(props: CellControllerProps) {
 	};
 
 	return (
-		<div onClick={(e) => handleClick(e)} className='relative ' ref={cellRef}>
+		<div
+			onClick={(e) => handleDoubleClick(e)}
+			onTouchEnd={() => handleDoubleTouch()}
+			className='relative '
+			ref={cellRef}
+		>
 			{isPopupOpen ? (
 				<PopupTileMenu
 					handleNewEventModal={props.handleNewEventModal}

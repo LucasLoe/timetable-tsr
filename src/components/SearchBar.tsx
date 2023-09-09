@@ -8,6 +8,7 @@ type SearchBarPropsType = {
 	searchHooks: [boolean, SetValue<boolean>];
 	calendarEvents: CalendarLocalStorageType;
 	handleNewEventModal: (e: EventType | undefined) => void;
+	isMobile: boolean;
 };
 
 export default function SearchBar(props: SearchBarPropsType) {
@@ -17,6 +18,7 @@ export default function SearchBar(props: SearchBarPropsType) {
 	const searchRef = useRef<HTMLDivElement>(null);
 	const calendarEvents = props.calendarEvents;
 	const handleNewEventModal = props.handleNewEventModal;
+	const isMobile = props.isMobile;
 
 	function markKeywordInString(str: string, keyword: string): JSX.Element {
 		const substrings = str.split(new RegExp(`(${keyword})`, "gi"));
@@ -110,26 +112,30 @@ export default function SearchBar(props: SearchBarPropsType) {
 	return (
 		<>
 			{searchIsOpen ? (
-				<div ref={searchRef} className='relative'>
-					<input
-						autoFocus
-						placeholder='What are you looking for?'
-						className='transition-width w-[400px] rounded bg-slate-200 px-4 py-1 delay-150 ease-in-out focus:outline-none'
-						value={searchQuery}
-						onChange={(e) => handleSearchInput(e)}
-					/>
-					{searchQuery && (
-						<div className='h-content absolute top-[95%] z-50 w-full rounded-b-xl border-t-2 border-gray-100 bg-slate-200 p-2 shadow-xl'>
-							{searchResult.length ? (
-								searchResult &&
-								searchResult.map((e, i) => {
-									return <SearchBarElement e={e} key={"searchbar-element-" + i} />;
-								})
-							) : (
-								<EmptySearchResult message='No search result for the given query' />
-							)}
-						</div>
-					)}
+				<div className={`${isMobile ? "absolute right-2.5" : ""}`}>
+					<div ref={searchRef} className='relative'>
+						<input
+							autoFocus
+							placeholder='What are you looking for?'
+							className={`transition-width rounded bg-slate-200 px-4 py-1 delay-150 ease-in-out focus:outline-none ${
+								isMobile ? "w-[95vw]" : "w-[400px]"
+							}`}
+							value={searchQuery}
+							onChange={(e) => handleSearchInput(e)}
+						/>
+						{searchQuery && (
+							<div className='h-content absolute top-[95%] z-50 w-full rounded-b-xl border-t-2 border-gray-100 bg-slate-200 p-2 shadow-xl'>
+								{searchResult.length ? (
+									searchResult &&
+									searchResult.map((e, i) => {
+										return <SearchBarElement e={e} key={"searchbar-element-" + i} />;
+									})
+								) : (
+									<EmptySearchResult message='No search result for the given query' />
+								)}
+							</div>
+						)}
+					</div>
 				</div>
 			) : (
 				<button

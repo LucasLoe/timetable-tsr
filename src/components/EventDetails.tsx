@@ -86,7 +86,7 @@ export default function EventDetails(props: EventDetailsPropsType) {
 				<div className=' absolute h-full w-full bg-slate-900 opacity-25'></div>
 				<div
 					ref={modalRef}
-					className='relative z-10 m-auto h-auto w-[500px] rounded-lg bg-slate-50 px-4 py-4 opacity-100 shadow-2xl'
+					className='relative z-10 m-auto h-auto w-[350px] rounded-lg bg-slate-50 px-4 py-4 opacity-100 shadow-2xl'
 				>
 					<div className='relative flex w-full flex-row justify-between align-middle'>
 						<FontAwesomeIcon
@@ -105,7 +105,7 @@ export default function EventDetails(props: EventDetailsPropsType) {
 						{submenuIsOpen && (
 							<div
 								ref={submenuRef}
-								className='w-content absolute -right-16 top-6 rounded-lg bg-slate-50 shadow-xl outline outline-1 outline-slate-200'
+								className='w-content absolute right-0 top-6 rounded-lg bg-slate-50 shadow-xl outline outline-1 outline-slate-200'
 							>
 								<div
 									onClick={() => {

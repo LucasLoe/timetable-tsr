@@ -127,7 +127,7 @@ export default function Calendar(props: CalendarPropType): JSX.Element {
 		<>
 			<DayStringHeader />
 			<SeparationLine />
-			<div className='grid h-[90%] w-full grid-cols-7 gap-[1px] [&>*:nth-child(7n)]:text-red-400 [&>*:nth-child(7n-1)]:text-red-400 '>
+			<div className='grid h-[90%] auto-rows-fr w-full grid-cols-7 gap-[1px] [&>*:nth-child(7n)]:text-red-400 [&>*:nth-child(7n-1)]:text-red-400 '>
 				<DateTiles />
 			</div>
 		</>

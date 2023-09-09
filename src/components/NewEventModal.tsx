@@ -102,7 +102,7 @@ export default function NewEventModal(props: NewEventModalPropType): JSX.Element
 			></div>
 			<form
 				onSubmit={(e) => handleSubmit(e)}
-				className='relative z-10 m-auto h-auto w-[800px] rounded-lg bg-slate-50 px-12 py-6 opacity-100 shadow-2xl'
+				className='relative z-10 m-auto h-auto w-[95vw] max-w-[700px] rounded-lg bg-slate-50 px-8 py-6 opacity-100 shadow-2xl'
 			>
 				<input
 					id='title'
@@ -124,31 +124,8 @@ export default function NewEventModal(props: NewEventModalPropType): JSX.Element
 						value={formattedBeginDate}
 						onChange={handleEventDataChange}
 					/>
-					{eventData.fullDay ? (
-						<></>
-					) : (
-						<input
-							id='beginTime'
-							className='mx-2 my-auto grow rounded bg-blue-100 px-4 py-1'
-							required
-							type='time'
-							value={eventData.beginTime}
-							onChange={handleEventDataChange}
-						/>
-					)}
-					<p className='my-auto'>-</p>
-					{eventData.fullDay ? (
-						<></>
-					) : (
-						<input
-							id='endTime'
-							className='mx-2 my-auto grow rounded bg-blue-100 px-4 py-1'
-							required
-							type='time'
-							value={eventData.endTime}
-							onChange={handleEventDataChange}
-						/>
-					)}
+
+					<span className='my-auto'>-</span>
 					<input
 						id='endDate'
 						className=' mx-2 my-auto w-[170px] rounded bg-blue-100 px-4 py-1'
@@ -158,6 +135,30 @@ export default function NewEventModal(props: NewEventModalPropType): JSX.Element
 						onChange={handleEventDataChange}
 					/>
 				</div>
+				{eventData.fullDay && (
+					<div className='my-4 flex w-full  align-middle'>
+						<FontAwesomeIcon className='my-auto mr-4 text-blue-700' icon={faClock} />
+
+						<input
+							id='beginTime'
+							className='mx-2 my-auto w-[170px] rounded bg-blue-100 px-4 py-1'
+							required
+							type='time'
+							value={eventData.beginTime}
+							onChange={handleEventDataChange}
+						/>
+						<span className='my-auto'>-</span>
+
+						<input
+							id='endTime'
+							className='mx-2 my-auto w-[170px] rounded bg-blue-100 px-4 py-1'
+							required
+							type='time'
+							value={eventData.endTime}
+							onChange={handleEventDataChange}
+						/>
+					</div>
+				)}
 				<div className='my-2 flex w-full pl-12 align-middle'>
 					<input
 						id='fullDay'

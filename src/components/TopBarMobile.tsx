@@ -1,4 +1,10 @@
-import { faSquareCaretLeft, faSquareCaretRight, faPlus } from "@fortawesome/free-solid-svg-icons";
+import {
+	faSquareCaretLeft,
+	faSquareCaretRight,
+	faPlus,
+	faHamburger,
+	faHome,
+} from "@fortawesome/free-solid-svg-icons";
 import SearchBar from "./SearchBar";
 import React, { useState } from "react";
 import { EventType, SetValue, CalendarLocalStorageType } from "../types";
@@ -20,13 +26,13 @@ const monthStrings = [
 	"December",
 ];
 
-type TopBarPropsType = {
+type TopBarMobileProps = {
 	calendarDateHook: [Date, SetValue<Date>];
 	calendarEvents: CalendarLocalStorageType;
 	handleNewEventModal: (e: EventType | undefined) => void;
 };
 
-export default function TopBar(props: TopBarPropsType) {
+export default function TopBarMobile(props: TopBarMobileProps) {
 	const [calendarDate, setCalendarDate] = props.calendarDateHook;
 	const [searchIsOpen, setSearchIsOpen] = useState(false);
 
@@ -39,9 +45,16 @@ export default function TopBar(props: TopBarPropsType) {
 	};
 
 	return (
-		<div className='flex h-[8%] w-full flex-row justify-between bg-slate-100 px-4 align-middle text-xl font-semibold'>
+		<div className='flex h-[8%] w-full flex-row justify-between bg-slate-100 px-2 align-middle text-xl font-semibold'>
 			<div className='my-auto flex flex-row'>
-				<MenuButton onClickFunction={() => setCalendarDate(new Date())}>Today</MenuButton>
+				<FontAwesomeButton
+					id='jumpToTodayButton'
+					fontIconString={faHome}
+					onClickFunction={() => setCalendarDate(new Date())}
+				/>
+				<p className='mx-4 my-auto w-36 text-base font-semibold'>
+					{monthStrings[calendarDate.getMonth()] + ", " + calendarDate.getFullYear()}
+				</p>
 				<FontAwesomeButton
 					id={"prevMonthButton"}
 					fontIconString={faSquareCaretLeft}
@@ -52,21 +65,11 @@ export default function TopBar(props: TopBarPropsType) {
 					fontIconString={faSquareCaretRight}
 					onClickFunction={(e) => switchMonth(e)}
 				/>
-
-				<p className='mx-4 my-auto text-base font-semibold'>
-					{monthStrings[calendarDate.getMonth()] + ", " + calendarDate.getFullYear()}
-				</p>
-			</div>
-			<div className='my-auto flex flex-row'>
-				<MenuButton onClickFunction={() => void 0}>Monthly</MenuButton>
-				<MenuButton onClickFunction={() => void 0}>Weekly</MenuButton>
-			</div>
-			<div className='my-auto flex flex-row text-base'>
 				<SearchBar
 					handleNewEventModal={props.handleNewEventModal}
 					calendarEvents={props.calendarEvents}
 					searchHooks={[searchIsOpen, setSearchIsOpen]}
-					isMobile={false}
+					isMobile={true}
 				/>
 				<FontAwesomeButton
 					fontIconString={faPlus}
