@@ -3,6 +3,7 @@ import { faTag, faEllipsis } from "@fortawesome/free-solid-svg-icons";
 import { v4 as uuidv4 } from "uuid";
 import { useRef } from "react";
 import { EventType, SetValue, CalendarLocalStorageType } from "../types";
+import useAutoFocusOnRender from "../functions/useAutoFocusOnRender";
 
 type PopupTileMenuPropsType = {
 	handleNewEventModal: (e: EventType | undefined) => void;
@@ -18,7 +19,6 @@ export default function PopupTileMenu(props: PopupTileMenuPropsType) {
 	const [events, setEvents] = props.calenderEventsHook;
 	const setIsPopupOpen = props.setPopupOpen;
 	const inputRef = useRef<HTMLInputElement>(null);
-	console.log()
 
 	let leftValClassName = "left-[calc(50%-125px)]";
 	let leftTriangleClassName = "mx-auto";
@@ -31,11 +31,13 @@ export default function PopupTileMenu(props: PopupTileMenuPropsType) {
 		leftTriangleClassName = "ml-4 mr-auto";
 	}
 
+	useAutoFocusOnRender(inputRef);
+
 	const handleEnterKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
 		if (e.key === "Enter") {
-			console.log(cellDate)
+			console.log(cellDate);
 			const eventDate = cellDate;
-			console.log(eventDate)
+			console.log(eventDate);
 			setIsPopupOpen(false);
 			const newEvent = {
 				title: inputRef.current!.value,
