@@ -3,6 +3,8 @@ import { faSquareCaretLeft, faSquareCaretRight, faPlus } from "@fortawesome/free
 import SearchBar from "./SearchBar";
 import React, { useState } from "react";
 import { EventType, SetValue, CalendarLocalStorageType } from "../types";
+import MenuButton from "./MenuButton";
+import FontAwesomeButton from "./FontAwesomeButton";
 
 const monthStrings = [
 	"January",
@@ -40,43 +42,25 @@ export default function TopBar(props: TopBarPropsType) {
 	return (
 		<div className='flex h-[8%] w-full flex-row justify-between bg-slate-100 px-4 align-middle text-xl font-semibold'>
 			<div className='my-auto flex flex-row'>
-				{/* 
-				<button className={`ml-2 mr-4 rounded-2xl bg-slate-200 px-4 py-1 text-base`}>
-					<FontAwesomeIcon
-						icon={faSliders}
-						className='fa fa-lg my-auto mr-1 ml-0.5 text-slate-600'
-					/>
-				</button>
-				*/}
-				<button
-					onClick={() => setCalendarDate(new Date())}
-					className={`mx-2 rounded-2xl bg-slate-200 px-4 py-1 text-base hover:bg-slate-300`}
-				>
-					Today
-				</button>
-				<button onClick={(e) => switchMonth(e)} id='prevMonthButton'>
-					<FontAwesomeIcon
-						icon={faSquareCaretLeft}
-						className='fa fa-lg my-auto ml-1 mr-0.5 text-slate-600 hover:bg-slate-300'
-					/>
-				</button>
-				<button id='nextMonthButton' onClick={(e) => switchMonth(e)}>
-					<FontAwesomeIcon
-						icon={faSquareCaretRight}
-						className='fa fa-lg my-auto ml-0.5 mr-1 text-slate-600 hover:bg-slate-300'
-					/>
-				</button>
+				<MenuButton onClickFunction={() => setCalendarDate(new Date())}>Today</MenuButton>
+				<FontAwesomeButton
+					id={"prevMonthButton"}
+					fontIconString={faSquareCaretLeft}
+					onClickFunction={(e) => switchMonth(e)}
+				/>
+				<FontAwesomeButton
+					id={"nextMonthButton"}
+					fontIconString={faSquareCaretLeft}
+					onClickFunction={(e) => switchMonth(e)}
+				/>
+
 				<p className='mx-4 my-auto text-base font-semibold'>
 					{monthStrings[calendarDate.getMonth()] + ", " + calendarDate.getFullYear()}
 				</p>
 			</div>
 			<div className='my-auto flex flex-row'>
-				<button className={`mx-2 rounded-full bg-slate-200 px-4 py-1 text-base hover:bg-slate-300`}>
-					Monthly
-				</button>
-				<button className={`mx-2 rounded-full bg-slate-200 px-4 py-1 text-base hover:bg-slate-300`}>
-					Weekly
-				</button>
+				<MenuButton onClickFunction={() => void 0}>Monthly</MenuButton>
+				<MenuButton onClickFunction={() => void 0}>Weekly</MenuButton>
 			</div>
 			<div className='my-auto flex flex-row text-base'>
 				<SearchBar
@@ -84,16 +68,10 @@ export default function TopBar(props: TopBarPropsType) {
 					calendarEvents={props.calendarEvents}
 					searchHooks={[searchIsOpen, setSearchIsOpen]}
 				/>
-				<button className={`mx-1 rounded-2xl bg-slate-200 px-4 py-1 text-base hover:bg-slate-300`}>
-					<FontAwesomeIcon
-						onClick={() => props.handleNewEventModal(undefined)}
-						icon={faPlus}
-						className='fa fa-lg my-auto ml-0.5 mr-1 text-slate-600'
-					/>
-				</button>
-				{
-					// <button className={`mx-1 rounded-2xl bg-slate-200 px-4 py-1 text-base`}>Button</button>
-				}
+				<FontAwesomeButton
+					fontIconString={faPlus}
+					onClickFunction={() => props.handleNewEventModal(undefined)}
+				/>
 			</div>
 		</div>
 	);

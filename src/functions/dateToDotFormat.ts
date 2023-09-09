@@ -1,4 +1,7 @@
-export default function dateToDotFormat(date: string) {
-	const reorderedDate = date.slice(8, 10) + date.slice(4, 8) + date.slice(0, 4);
-	return reorderedDate.replaceAll("-", ".");
-}
+export default function dateToDotFormat(date: Date) {
+	const day = date.getDate().toString().padStart(2, '0');
+	const month = (date.getMonth() + 1).toString().padStart(2, '0');
+	const year = date.getFullYear().toString();
+  
+	return `${day}.${month}.${year}`;
+  }

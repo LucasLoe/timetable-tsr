@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { CalendarLocalStorageType, EventArrayType, EventType, SetValue } from "../types";
+import dateToDotFormat from "../functions/dateToDotFormat";
 
 type SearchBarPropsType = {
 	searchHooks: [boolean, SetValue<boolean>];
@@ -16,14 +17,6 @@ export default function SearchBar(props: SearchBarPropsType) {
 	const searchRef = useRef<HTMLDivElement>(null);
 	const calendarEvents = props.calendarEvents;
 	const handleNewEventModal = props.handleNewEventModal;
-
-	function toDotFormat(date: Date) {
-		return (
-			date.toISOString().slice(8, 10) +
-			date.toISOString().slice(4, 8) +
-			date.toISOString().slice(0, 4).replaceAll("-", ".")
-		);
-	}
 
 	function markKeywordInString(str: string, keyword: string): JSX.Element {
 		const substrings = str.split(new RegExp(`(${keyword})`, "gi"));
@@ -86,7 +79,7 @@ export default function SearchBar(props: SearchBarPropsType) {
 			>
 				<div className='flex flex-row'>
 					<p className='my-auto mr-4 text-sm font-semibold tracking-wide'>
-						{toDotFormat(new Date(e.beginDate))}
+						{dateToDotFormat(new Date(e.beginDate))}
 					</p>
 					{!e.fullDay && (
 						<>

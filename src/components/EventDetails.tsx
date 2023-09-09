@@ -132,7 +132,7 @@ export default function EventDetails(props: EventDetailsPropsType) {
 					<div className='mt-8 flex w-full flex-row justify-center align-middle'>
 						<div className='text-center'>
 							<p className='text-lg text-slate-500'>
-								{dateToDotFormat(new Date(activeEventDetail.beginDate).toISOString())}
+								{dateToDotFormat(new Date(activeEventDetail.beginDate))}
 							</p>
 							{!activeEventDetail.fullDay && (
 								<p className='text-4xl'>{activeEventDetail.beginTime}</p>
@@ -144,7 +144,7 @@ export default function EventDetails(props: EventDetailsPropsType) {
 						/>
 						<div className='text-center'>
 							<p className='text-lg text-slate-500'>
-								{dateToDotFormat(new Date(activeEventDetail.endDate).toISOString())}
+								{dateToDotFormat(new Date(activeEventDetail.endDate))}
 							</p>
 							{!activeEventDetail.fullDay && (
 								<p className='text-4xl'>{activeEventDetail.endTime}</p>
