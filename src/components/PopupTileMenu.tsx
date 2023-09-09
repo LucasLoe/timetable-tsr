@@ -3,7 +3,6 @@ import { faTag, faEllipsis } from "@fortawesome/free-solid-svg-icons";
 import { v4 as uuidv4 } from "uuid";
 import { useRef } from "react";
 import { EventType, SetValue, CalendarLocalStorageType } from "../types";
-import useAutoFocusOnRender from "../functions/useAutoFocusOnRender";
 
 type PopupTileMenuPropsType = {
 	handleNewEventModal: (e: EventType | undefined) => void;
@@ -30,8 +29,6 @@ export default function PopupTileMenu(props: PopupTileMenuPropsType) {
 		leftValClassName = "left-[10%]";
 		leftTriangleClassName = "ml-4 mr-auto";
 	}
-
-	useAutoFocusOnRender(inputRef);
 
 	const handleEnterKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
 		if (e.key === "Enter") {
