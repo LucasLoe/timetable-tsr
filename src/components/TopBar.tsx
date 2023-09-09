@@ -1,5 +1,4 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSquareCaretLeft, faSquareCaretRight, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faSquareCaretLeft, faPlus } from "@fortawesome/free-solid-svg-icons";
 import SearchBar from "./SearchBar";
 import React, { useState } from "react";
 import { EventType, SetValue, CalendarLocalStorageType } from "../types";
