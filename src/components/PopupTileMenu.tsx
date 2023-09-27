@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTag, faEllipsis } from "@fortawesome/free-solid-svg-icons";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { EventType, SetValue, CalendarLocalStorageType } from "../types";
 import { useNewEventModal } from "../contexts/NewEventModalContext";
 import getNewEventObject from "../functions/getNewEventObject";
@@ -18,6 +18,7 @@ export default function PopupTileMenu(props: PopupTileMenuPropsType) {
 	const { modalState, setModalState } = useNewEventModal();
 	const setIsPopupOpen = props.setPopupOpen;
 	const inputRef = useRef<HTMLInputElement>(null);
+	const [inputValue, setInputValue] = useState("");
 
 	// determine whether the popup menu is oriented in a symmetric or asymmetric way to not collide with the screen border
 	let leftValClassName = "left-[calc(50%-125px)]";
@@ -73,11 +74,14 @@ export default function PopupTileMenu(props: PopupTileMenuPropsType) {
 				<FontAwesomeIcon icon={faTag} className='fa my-auto text-blue-500' />
 				<input
 					autoFocus
+					value={inputValue}
 					className='text-md mx-2 my-auto w-full border-0 border-b-2 border-blue-500 bg-transparent px-1 py-0 font-semibold text-blue-500 placeholder-blue-300 outline-0 focus:!outline-none'
 					required
 					type='text'
 					placeholder='New Event..'
 					ref={inputRef}
+					onClick={(e) => e.stopPropagation()}
+					onChange={(e) => setInputValue(e.target.value)}
 					onKeyDown={(e) => {
 						handleEnterKey(e);
 					}}
