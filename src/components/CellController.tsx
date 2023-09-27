@@ -57,9 +57,14 @@ export default function CellController(props: CellControllerProps) {
 		};
 	});
 
-	const handleDoubleTouch = () => {
+	const handleDoubleTouch = (e: React.TouchEvent) => {
+		if (e.target instanceof HTMLInputElement) {
+			return;
+		}
+
 		setTouchCount((prevCount) => prevCount + 1);
 		const touchTimer = setTimeout(() => setTouchCount(0), 300);
+
 		if (touchCount === 1) {
 			setIsPopupOpen(true);
 			setTouchCount(0);
@@ -68,7 +73,6 @@ export default function CellController(props: CellControllerProps) {
 	};
 
 	const handleDoubleClick = (e: React.MouseEvent) => {
-		// @ts-ignore
 		if (e.target instanceof HTMLInputElement) {
 			return;
 		}
