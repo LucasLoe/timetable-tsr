@@ -2,14 +2,13 @@ import CellController from "./CellController";
 import { useMemo } from "react";
 import filterDateOverlap from "../functions/filterInDateRange";
 import getDateEndpoints from "../functions/getDateEndpoints";
-import { CalendarLocalStorageType, SetValue, EventType, CellType, EventArrayType } from "../types";
+import { CalendarLocalStorageType, SetValue, CellType, EventArrayType } from "../types";
 import createJSDateFromYYYYMMDD from "../functions/createJSDateFromYYYY-MM-DD";
 import { v4 as uuidv4 } from "uuid";
 
 type CalendarPropType = {
 	calenderEventsHook: [CalendarLocalStorageType, SetValue<CalendarLocalStorageType>];
 	userDate: Date;
-	handleNewEventModal: (e: EventType | undefined) => void;
 };
 
 const DayStringHeader = () => {
@@ -61,7 +60,6 @@ export default function Calendar(props: CalendarPropType): JSX.Element {
 						date={date}
 						calenderEventsHook={[events, setEvents]}
 						activeEvents={activeEvents}
-						handleNewEventModal={props.handleNewEventModal}
 					/>
 				);
 			};
@@ -127,7 +125,7 @@ export default function Calendar(props: CalendarPropType): JSX.Element {
 		<>
 			<DayStringHeader />
 			<SeparationLine />
-			<div className='grid h-[90%] auto-rows-fr w-full grid-cols-7 gap-[1px] [&>*:nth-child(7n)]:text-red-400 [&>*:nth-child(7n-1)]:text-red-400 '>
+			<div className='grid h-[90%] w-full auto-rows-fr grid-cols-7 gap-[1px] [&>*:nth-child(7n)]:text-red-400 [&>*:nth-child(7n-1)]:text-red-400 '>
 				<DateTiles />
 			</div>
 		</>

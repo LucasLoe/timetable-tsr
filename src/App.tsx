@@ -5,40 +5,24 @@ import TopBar from "./components/TopBar";
 import TopBarMobile from "./components/TopBarMobile";
 import useLocalStorage from "./functions/useLocalStorage";
 import Header from "./components/Header";
-import { CalendarLocalStorageType, EventModalType, EventType } from "./types";
+import { CalendarLocalStorageType } from "./types";
 import useWindowSize from "./functions/useWindowSize";
+import { useNewEventModal } from "./contexts/NewEventModalContext";
+import isMobile from "./functions/isMobile";
 
-type ColoredSideBarProps = {
-	tailwindWidth: string;
+const ColoredSideBar = (props: { tailwindWidth: string }) => {
+	return <div className={`h-full bg-blue-500 ${props.tailwindWidth}`}></div>;
 };
 
 function App(): JSX.Element {
 	const today = new Date();
 	const [calendarDate, setCalendarDate] = useState<Date>(new Date(today));
-	const [eventModalState, setEventModalState] = useState<EventModalType>({
-		newEvent: false,
-		newEventPrefill: undefined,
-	});
+	const { modalState } = useNewEventModal();
 	const [events, setEvents] = useLocalStorage<CalendarLocalStorageType>("timetable-react-app", {
 		eventData: [],
 	});
-	const windowSize = useWindowSize();
-	const { width } = windowSize;
-	const userWindowIsMobile = width != undefined && width < 768;
-
-	function handleNewEventModal(prefill: EventType | undefined = undefined) {
-		if (!eventModalState.newEvent) {
-			setEventModalState({
-				...eventModalState,
-				newEvent: true,
-				newEventPrefill: prefill,
-			});
-		}
-	}
-
-	const ColoredSideBar = (props: ColoredSideBarProps) => {
-		return <div className={`h-full bg-blue-500 ${props.tailwindWidth}`}></div>;
-	};
+	const { width } = useWindowSize();
+	const userWindowIsMobile = isMobile(width);
 
 	return (
 		<div className='h-screen w-screen'>
@@ -50,16 +34,11 @@ function App(): JSX.Element {
 					<>
 						<div className='w-full'>
 							<TopBarMobile
-								handleNewEventModal={handleNewEventModal}
 								calendarDateHook={[calendarDate, setCalendarDate]}
 								calendarEvents={events}
 							/>
 							<div className='h-[92%] w-full bg-zinc-100'>
-								<Calendar
-									calenderEventsHook={[events, setEvents]}
-									userDate={calendarDate}
-									handleNewEventModal={handleNewEventModal}
-								/>
+								<Calendar calenderEventsHook={[events, setEvents]} userDate={calendarDate} />
 							</div>
 						</div>
 					</>
@@ -67,28 +46,15 @@ function App(): JSX.Element {
 					<>
 						<ColoredSideBar tailwindWidth={"w-16"} />
 						<div className='w-full'>
-							<TopBar
-								handleNewEventModal={handleNewEventModal}
-								calendarDateHook={[calendarDate, setCalendarDate]}
-								calendarEvents={events}
-							/>
+							<TopBar calendarDateHook={[calendarDate, setCalendarDate]} calendarEvents={events} />
 							<div className='h-[92%] w-full bg-zinc-100'>
-								<Calendar
-									calenderEventsHook={[events, setEvents]}
-									userDate={calendarDate}
-									handleNewEventModal={handleNewEventModal}
-								/>
+								<Calendar calenderEventsHook={[events, setEvents]} userDate={calendarDate} />
 							</div>
 						</div>
 					</>
 				)}
 			</div>
-			{eventModalState.newEvent && (
-				<NewEventModal
-					modalControls={[eventModalState, setEventModalState]}
-					eventHooks={[events, setEvents]}
-				/>
-			)}
+			{modalState.newEvent && <NewEventModal eventHooks={[events, setEvents]} />}
 		</div>
 	);
 }

@@ -1,24 +1,25 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTag, faEllipsis } from "@fortawesome/free-solid-svg-icons";
-import { v4 as uuidv4 } from "uuid";
 import { useRef } from "react";
 import { EventType, SetValue, CalendarLocalStorageType } from "../types";
+import { useNewEventModal } from "../contexts/NewEventModalContext";
+import getNewEventObject from "../functions/getNewEventObject";
 
 type PopupTileMenuPropsType = {
-	handleNewEventModal: (e: EventType | undefined) => void;
 	setPopupOpen: SetValue<boolean>;
 	calenderEventsHook: [CalendarLocalStorageType, SetValue<CalendarLocalStorageType>];
 	popupAlign: string;
 	date: Date;
 };
 export default function PopupTileMenu(props: PopupTileMenuPropsType) {
-	const handleNewEventModal = props.handleNewEventModal;
 	const popupAlign = props.popupAlign;
 	const cellDate = props.date;
 	const [events, setEvents] = props.calenderEventsHook;
+	const { modalState, setModalState } = useNewEventModal();
 	const setIsPopupOpen = props.setPopupOpen;
 	const inputRef = useRef<HTMLInputElement>(null);
 
+	// determine whether the popup menu is oriented in a symmetric or asymmetric way to not collide with the screen border
 	let leftValClassName = "left-[calc(50%-125px)]";
 	let leftTriangleClassName = "mx-auto";
 
@@ -30,45 +31,31 @@ export default function PopupTileMenu(props: PopupTileMenuPropsType) {
 		leftTriangleClassName = "ml-4 mr-auto";
 	}
 
+	function handleNewEventModal(prefill: EventType | undefined = undefined) {
+		if (!modalState.newEvent) {
+			setModalState({
+				...modalState,
+				newEvent: true,
+				newEventPrefill: prefill,
+			});
+		}
+	}
+
 	const handleEnterKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
 		if (e.key === "Enter") {
-			console.log(cellDate);
-			const eventDate = cellDate;
-			console.log(eventDate);
-			setIsPopupOpen(false);
-			const newEvent = {
-				title: inputRef.current!.value,
-				beginDate: new Date(eventDate),
-				beginTime: "03:00",
-				endDate: new Date(new Date().setDate(new Date(eventDate).getDate())),
-				endTime: "23:00",
-				fullDay: true,
-				option: false,
-				notes: "",
-				url: "",
-				location: "",
-				_uuid: uuidv4(),
-			};
+			const newEvent = getNewEventObject();
+			(newEvent.title = inputRef.current!.value), (newEvent.beginDate = new Date(cellDate));
+			newEvent.endDate = new Date(new Date().setDate(new Date(cellDate).getDate()));
 			setEvents({ ...events, eventData: [...events.eventData, newEvent] });
 		}
 	};
 
 	function handleTransitionToNewEventModal() {
+		const newEvent = getNewEventObject();
+		(newEvent.title = inputRef.current!.value), (newEvent.beginDate = new Date(cellDate));
+		newEvent.endDate = new Date(new Date().setDate(new Date(cellDate).getDate()));
+		handleNewEventModal(newEvent);
 		setIsPopupOpen(false);
-		const eventDate = cellDate;
-		handleNewEventModal({
-			title: inputRef.current!.value,
-			beginDate: new Date(eventDate),
-			beginTime: "03:00",
-			endDate: new Date(new Date().setDate(new Date(eventDate).getDate())),
-			endTime: "23:00",
-			fullDay: true,
-			option: false,
-			notes: "",
-			url: "",
-			location: "",
-			_uuid: uuidv4(),
-		});
 	}
 
 	return (

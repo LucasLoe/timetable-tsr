@@ -12,7 +12,6 @@ type CellControllerProps = {
 	date: Date;
 	calenderEventsHook: [CalendarLocalStorageType, SetValue<CalendarLocalStorageType>];
 	activeEvents: EventArrayType;
-	handleNewEventModal: (e: EventType | undefined) => void;
 };
 
 export default function CellController(props: CellControllerProps) {
@@ -89,7 +88,6 @@ export default function CellController(props: CellControllerProps) {
 		>
 			{isPopupOpen ? (
 				<PopupTileMenu
-					handleNewEventModal={props.handleNewEventModal}
 					setPopupOpen={setIsPopupOpen}
 					calenderEventsHook={[events, setEvents]}
 					popupAlign={popupAlign}
@@ -117,7 +115,6 @@ export default function CellController(props: CellControllerProps) {
 							calenderEventsHook={[events, setEvents]}
 							eventModalHook={[modalIsOpen, setModalIsOpen]}
 							eventDetailsHook={[activeEventDetail, setActiveEventDetail]}
-							handleNewEventModal={props.handleNewEventModal}
 						/>
 					)}
 				</CalendarCellLayout>

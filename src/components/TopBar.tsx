@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { EventType, SetValue, CalendarLocalStorageType } from "../types";
 import MenuButton from "./MenuButton";
 import FontAwesomeButton from "./FontAwesomeButton";
+import { useNewEventModal } from "../contexts/NewEventModalContext";
 
 const monthStrings = [
 	"January",
@@ -23,11 +24,11 @@ const monthStrings = [
 type TopBarPropsType = {
 	calendarDateHook: [Date, SetValue<Date>];
 	calendarEvents: CalendarLocalStorageType;
-	handleNewEventModal: (e: EventType | undefined) => void;
 };
 
 export default function TopBar(props: TopBarPropsType) {
 	const [calendarDate, setCalendarDate] = props.calendarDateHook;
+	const { modalState, setModalState } = useNewEventModal();
 	const [searchIsOpen, setSearchIsOpen] = useState(false);
 
 	const switchMonth = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -37,6 +38,16 @@ export default function TopBar(props: TopBarPropsType) {
 			setCalendarDate((prevDate) => new Date(prevDate.setMonth(prevDate.getMonth() + 1)));
 		}
 	};
+
+	function handleNewEventModal(prefill: EventType | undefined = undefined) {
+		if (!modalState.newEvent) {
+			setModalState({
+				...modalState,
+				newEvent: true,
+				newEventPrefill: prefill,
+			});
+		}
+	}
 
 	return (
 		<div className='flex h-[8%] w-full flex-row justify-between bg-slate-100 px-4 align-middle text-xl font-semibold'>
@@ -63,14 +74,14 @@ export default function TopBar(props: TopBarPropsType) {
 			</div>
 			<div className='my-auto flex flex-row text-base'>
 				<SearchBar
-					handleNewEventModal={props.handleNewEventModal}
+					handleNewEventModal={handleNewEventModal}
 					calendarEvents={props.calendarEvents}
 					searchHooks={[searchIsOpen, setSearchIsOpen]}
 					isMobile={false}
 				/>
 				<FontAwesomeButton
 					fontIconString={faPlus}
-					onClickFunction={() => props.handleNewEventModal(undefined)}
+					onClickFunction={() => handleNewEventModal(undefined)}
 				/>
 			</div>
 		</div>

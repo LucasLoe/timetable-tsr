@@ -13,21 +13,32 @@ import {
 import removeEventByIdFromArray from "../functions/removeEventByIdFromArray";
 import { SetValue, EventType, CalendarLocalStorageType } from "../types";
 import dateToDotFormat from "../functions/dateToDotFormat";
+import { useNewEventModal } from "../contexts/NewEventModalContext";
 
 type EventDetailsPropsType = {
 	calenderEventsHook: [CalendarLocalStorageType, SetValue<CalendarLocalStorageType>];
 	eventDetailsHook: [EventType | undefined, SetValue<EventType | undefined>];
 	eventModalHook: [boolean, SetValue<boolean>];
-	handleNewEventModal: (e: EventType | undefined) => void;
 };
 
 export default function EventDetails(props: EventDetailsPropsType) {
 	const [modalIsOpen, setModalIsOpen] = props.eventModalHook;
 	const [events, setEvents] = props.calenderEventsHook;
+	const { modalState, setModalState } = useNewEventModal();
 	const [activeEventDetail, setActiveEventDetail] = props.eventDetailsHook;
 	const [submenuIsOpen, setSubmenuIsOpen] = useState(false);
 	const modalRef = useRef<HTMLDivElement>(null);
 	const submenuRef = useRef<HTMLDivElement>(null);
+
+	function handleNewEventModal(prefill: EventType | undefined = undefined) {
+		if (!modalState.newEvent) {
+			setModalState({
+				...modalState,
+				newEvent: true,
+				newEventPrefill: prefill,
+			});
+		}
+	}
 
 	function handleRemoveEvent() {
 		if (activeEventDetail != undefined) {
@@ -40,7 +51,7 @@ export default function EventDetails(props: EventDetailsPropsType) {
 	function handleTransitionToEventModal() {
 		setSubmenuIsOpen(false);
 		setModalIsOpen(false);
-		props.handleNewEventModal(activeEventDetail);
+		handleNewEventModal(activeEventDetail);
 	}
 
 	useEffect(() => {

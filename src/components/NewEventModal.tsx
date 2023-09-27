@@ -6,35 +6,21 @@ import {
 	faLocationDot,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { v4 as uuidv4 } from "uuid";
 import replaceObjectByUuid from "../functions/replaceObjectByUuid";
-import { CalendarLocalStorageType, EventModalType, SetValue } from "../types";
+import { CalendarLocalStorageType, SetValue } from "../types";
+import { useNewEventModal } from "../contexts/NewEventModalContext";
+import getNewEventObject from "../functions/getNewEventObject";
 
 type NewEventModalPropType = {
 	eventHooks: [CalendarLocalStorageType, SetValue<CalendarLocalStorageType>];
-	modalControls: [EventModalType, SetValue<EventModalType>];
 };
 
 export default function NewEventModal(props: NewEventModalPropType): JSX.Element {
 	const [events, setEvents] = props.eventHooks;
-	const [eventModalState, setEventModalState] = props.modalControls;
+	const { modalState, setModalState } = useNewEventModal();
 	const [formattedBeginDate, setFormattedBeginDate] = useState("");
 	const [formattedEndDate, setFormattedEndDate] = useState("");
-	const [eventData, setEventData] = useState(
-		eventModalState.newEventPrefill || {
-			title: "",
-			beginDate: new Date(),
-			beginTime: "01:00",
-			endDate: new Date(new Date().setDate(new Date().getDate())),
-			endTime: "14:00",
-			fullDay: true,
-			option: false,
-			notes: "",
-			url: "",
-			location: "",
-			_uuid: uuidv4(),
-		}
-	);
+	const [eventData, setEventData] = useState(modalState.newEventPrefill || getNewEventObject());
 
 	useEffect(() => {
 		// console.log(`begin date: ${eventData.beginDate}`);
@@ -51,8 +37,8 @@ export default function NewEventModal(props: NewEventModalPropType): JSX.Element
 	}, [eventData]);
 
 	const closeNewEventModal = () => {
-		setEventModalState({
-			...eventModalState,
+		setModalState({
+			...modalState,
 			newEvent: false,
 			newEventPrefill: undefined,
 		});
@@ -91,7 +77,7 @@ export default function NewEventModal(props: NewEventModalPropType): JSX.Element
 			eventsCopy = replaceObjectByUuid(events.eventData, eventData, eventData._uuid);
 			setEvents({ ...events, eventData: eventsCopy });
 		}
-		setEventModalState((prevState) => ({ ...prevState, newEvent: false }));
+		setModalState((prevState) => ({ ...prevState, newEvent: false }));
 	}
 
 	return (
