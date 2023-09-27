@@ -58,9 +58,11 @@ export default function CellController(props: CellControllerProps) {
 	});
 
 	const handleDoubleTouch = (e: React.TouchEvent) => {
-		if (e.target instanceof HTMLInputElement) {
+		console.log(e)
+		if (e.target && e.target instanceof HTMLInputElement) {
 			return;
-		}
+		  }
+		
 
 		setTouchCount((prevCount) => prevCount + 1);
 		const touchTimer = setTimeout(() => setTouchCount(0), 300);
@@ -85,7 +87,7 @@ export default function CellController(props: CellControllerProps) {
 	return (
 		<div
 			onClick={(e) => handleDoubleClick(e)}
-			onTouchEnd={() => handleDoubleTouch()}
+			onTouchEnd={(e) => handleDoubleTouch(e)}
 			className='relative '
 			ref={cellRef}
 		>
