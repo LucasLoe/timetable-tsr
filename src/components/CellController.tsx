@@ -69,13 +69,12 @@ export default function CellController(props: CellControllerProps) {
 
 	const handleDoubleClick = (e: React.MouseEvent) => {
 		// @ts-ignore
+		if (e.target instanceof HTMLInputElement) {
+			return;
+		}
 
-		if (e.nativeEvent.pointerType === "mouse") {
-			console.log("sda");
-
-			if (e.detail === 2) {
-				setIsPopupOpen(true);
-			}
+		if (e.detail === 2) {
+			setIsPopupOpen(true);
 		}
 	};
 
