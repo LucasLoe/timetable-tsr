@@ -58,11 +58,11 @@ export default function CellController(props: CellControllerProps) {
 	});
 
 	const handleDoubleTouch = (e: React.TouchEvent) => {
-		console.log(e)
+		console.log(e);
 		if (e.target && e.target instanceof HTMLInputElement) {
+			e.stopPropagation()
 			return;
-		  }
-		
+		}
 
 		setTouchCount((prevCount) => prevCount + 1);
 		const touchTimer = setTimeout(() => setTouchCount(0), 300);
