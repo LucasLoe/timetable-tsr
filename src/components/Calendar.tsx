@@ -122,12 +122,12 @@ export default function Calendar(props: CalendarPropType): JSX.Element {
 		}, [userDate]);
 
 	return (
-		<>
+		<div className='h-[92%] bg-zinc-50 px-2'>
 			<DayStringHeader />
 			<SeparationLine />
 			<div className='grid h-[90%] w-full auto-rows-fr grid-cols-7 gap-[1px] [&>*:nth-child(7n)]:text-red-400 [&>*:nth-child(7n-1)]:text-red-400 '>
 				<DateTiles />
 			</div>
-		</>
+		</div>
 	);
 }

@@ -9,7 +9,7 @@ const MenuButton = (props: MenuButtonProps) => {
 		<button
 			id={props?.id}
 			onClick={props.onClickFunction}
-			className={`mx-2 rounded-2xl bg-slate-200 px-4 py-1 text-base hover:bg-slate-300`}
+			className={`mx-2 rounded-2xl bg-zinc-50 px-4 py-1 text-base hover:bg-zinc-200`}
 		>
 			{props.children}
 		</button>

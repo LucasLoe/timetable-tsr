@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { CalendarLocalStorageType, EventArrayType, EventType, SetValue } from "../types";
 import dateToDotFormat from "../functions/dateToDotFormat";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import userDeviceIsMobile from "../functions/userDeviceIsMobile";
 
 type SearchBarPropsType = {
 	searchHooks: [boolean, SetValue<boolean>];
 	calendarEvents: CalendarLocalStorageType;
 	handleNewEventModal: (e: EventType | undefined) => void;
-	isMobile: boolean;
 };
 
 export default function SearchBar(props: SearchBarPropsType) {
@@ -18,7 +18,7 @@ export default function SearchBar(props: SearchBarPropsType) {
 	const searchRef = useRef<HTMLDivElement>(null);
 	const calendarEvents = props.calendarEvents;
 	const handleNewEventModal = props.handleNewEventModal;
-	const isMobile = props.isMobile;
+	const isMobile = userDeviceIsMobile();
 
 	function markKeywordInString(str: string, keyword: string): JSX.Element {
 		const substrings = str.split(new RegExp(`(${keyword})`, "gi"));
@@ -70,14 +70,14 @@ export default function SearchBar(props: SearchBarPropsType) {
 		setSearchQuery(e.target.value);
 	};
 
-	const SearchBarElement = (props: { e: EventType }) => {
+	const SearchBarElement = (props: { e: EventType; index: number }) => {
 		const e = props.e;
 		return (
 			<div
 				onClick={(event) => {
 					handleTransitionToNewEventModal(event, e);
 				}}
-				className=' relative z-[100] flex h-8 w-full cursor-pointer  flex-row justify-between bg-slate-200 px-2'
+				className=' relative z-[100] flex h-8 w-full cursor-pointer  flex-row justify-between bg-zinc-50 px-2'
 			>
 				<div className='flex flex-row'>
 					<p className='my-auto mr-4 text-sm font-semibold tracking-wide'>
@@ -103,53 +103,50 @@ export default function SearchBar(props: SearchBarPropsType) {
 
 	const EmptySearchResult = (props: { message: string }) => {
 		return (
-			<div className=' relative  z-[100] flex h-16 w-full justify-center border-2 bg-slate-200'>
+			<div className=' bg-zinc-5  relative z-[100] flex h-16 w-full justify-center'>
 				<p className='mx-auto my-auto text-center text-sm text-slate-600'>{props.message}</p>
 			</div>
 		);
 	};
 
 	return (
-		<>
-			{searchIsOpen ? (
-				<div className={`${isMobile ? "absolute right-2.5" : ""}`}>
-					<div ref={searchRef} className='relative'>
-						<input
-							autoFocus
-							placeholder='What are you looking for?'
-							className={`transition-width rounded bg-slate-200 px-4 py-1 delay-150 ease-in-out focus:outline-none ${
-								isMobile ? "w-[95vw]" : "w-[400px]"
-							}`}
-							value={searchQuery}
-							onChange={(e) => handleSearchInput(e)}
-						/>
-						{searchQuery && (
-							<div className='h-content absolute top-[95%] z-50 w-full rounded-b-xl border-t-2 border-gray-100 bg-slate-200 p-2 shadow-xl'>
-								{searchResult.length ? (
-									searchResult &&
-									searchResult.map((e, i) => {
-										return <SearchBarElement e={e} key={"searchbar-element-" + i} />;
-									})
-								) : (
-									<EmptySearchResult message='No search result for the given query' />
-								)}
-							</div>
-						)}
-					</div>
-				</div>
-			) : (
-				<button
-					onClick={() => {
-						setSearchIsOpen(!searchIsOpen);
-					}}
-					className={`mx-1 rounded-2xl bg-slate-200 px-4 py-1 text-base hover:bg-slate-300`}
+		<div className='relative mx-2 h-8 w-8 rounded'>
+			<div className={`absolute right-0 top-0`}>
+				<div
+					ref={searchRef}
+					className='flex items-center justify-start rounded bg-zinc-50 shadow-2xl'
 				>
-					<FontAwesomeIcon
-						icon={faMagnifyingGlass}
-						className='fa fa-lg my-auto ml-0.5 mr-1 text-slate-600'
-					/>
-				</button>
-			)}
-		</>
+					<button
+						className='relative h-8 w-8 rounded bg-zinc-50'
+						onClick={() => setSearchIsOpen(!searchIsOpen)}
+					>
+						<FontAwesomeIcon className='text-blue-500' icon={faMagnifyingGlass} />
+					</button>
+					{searchIsOpen ? (
+						<div className={`h-12 p-2`}>
+							<input
+								autoFocus
+								placeholder='What are you looking for?'
+								className={`${isMobile ? "w-[70vw]" : "w-[400px] "} rounded px-4 py-1 `}
+								value={searchQuery}
+								onChange={(e) => handleSearchInput(e)}
+							/>
+							{searchQuery && (
+								<div className='h-content absolute left-0 top-[95%] z-50 w-full rounded-b-xl bg-zinc-100 p-2 shadow-xl'>
+									{searchResult.length ? (
+										searchResult &&
+										searchResult.map((e, i) => {
+											return <SearchBarElement e={e} index={i} key={"searchbar-element-" + i} />;
+										})
+									) : (
+										<EmptySearchResult message='No search result for the given query' />
+									)}
+								</div>
+							)}
+						</div>
+					) : null}
+				</div>
+			</div>
+		</div>
 	);
 }

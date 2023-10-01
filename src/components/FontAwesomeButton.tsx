@@ -12,7 +12,7 @@ const FontAwesomeButton = (props: FontAwesomeButtonProps) => {
 		<button id={props?.id} onClick={props.onClickFunction}>
 			<FontAwesomeIcon
 				icon={props.fontIconString}
-				className='fa fa-lg my-auto ml-0.5 mr-1 text-slate-600 hover:bg-slate-300'
+				className='fa fa-lg my-auto ml-0.5 mr-1 text-zinc-50 hover:bg-slate-300'
 			/>
 		</button>
 	);
